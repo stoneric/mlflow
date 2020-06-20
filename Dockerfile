@@ -14,6 +14,7 @@ RUN apt-get update -yqq \
    && apt-get install apache2 -yqq \
    && apt-get install apache2-utils -yqq \
    && apt-get install vim -yqq \
+   && apt-get install net-tools -yqq \
    && apt-get autoremove -yqq --purge \
    && apt-get clean \
    && rm -rf \
@@ -29,10 +30,16 @@ ADD apache2.conf /etc/apache2/apache2.conf
 RUN ln -sf /etc/apache2/mods-available/proxy.conf /etc/apache2/mods-enabled
 RUN ln -sf /etc/apache2/mods-available/proxy.load /etc/apache2/mods-enabled
 RUN ln -sf /etc/apache2/mods-available/proxy_http.load /etc/apache2/mods-enabled
-# RUN ln -sf /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled
-# RUN ln -sf /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/socache_shmcb.load /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/socache_shmcb.conf /etc/apache2/mods-enabled
+
 
 ADD entrypoint.sh ./entrypoint.sh
+
+ADD cert/certificate.cert /cert/certificate.cert
+ADD cert/certificate.key  /cert/certificate.key
 
 RUN useradd -u 1002 mlflow
 RUN usermod -aG sudo mlflow
