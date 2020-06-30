@@ -34,12 +34,16 @@ RUN ln -sf /etc/apache2/mods-available/ssl.load /etc/apache2/mods-enabled
 RUN ln -sf /etc/apache2/mods-available/ssl.conf /etc/apache2/mods-enabled
 RUN ln -sf /etc/apache2/mods-available/socache_shmcb.load /etc/apache2/mods-enabled
 RUN ln -sf /etc/apache2/mods-available/socache_shmcb.conf /etc/apache2/mods-enabled
-
+RUN ln -sf /etc/apache2/mods-available/ldap.load /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/ldap.conf /etc/apache2/mods-enabled
+RUN ln -sf /etc/apache2/mods-available/authnz_ldap.load /etc/apache2/mods-enabled
 
 ADD entrypoint.sh ./entrypoint.sh
 
 ADD cert/certificate.cert /cert/certificate.cert
 ADD cert/certificate.key  /cert/certificate.key
+ADD ldap_ca.crt /etc/ca/ldap_ca.crt
+
 
 RUN useradd -u 1002 mlflow
 RUN usermod -aG sudo mlflow
@@ -54,3 +58,4 @@ RUN chmod +x ./entrypoint.sh
 USER mlflow
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
+# CMD [ "/app/entrypoint.sh" ]
