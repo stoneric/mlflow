@@ -40,8 +40,8 @@ RUN ln -sf /etc/apache2/mods-available/authnz_ldap.load /etc/apache2/mods-enable
 
 ADD entrypoint.sh ./entrypoint.sh
 
-ADD cert/certificate.cert /cert/certificate.cert
-ADD cert/certificate.key  /cert/certificate.key
+# ADD cert/certificate.cert /cert/certificate.cert
+# ADD cert/certificate.key  /cert/certificate.key
 ADD ldap_ca.crt /etc/ca/ldap_ca.crt
 
 
