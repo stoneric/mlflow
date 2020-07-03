@@ -10,7 +10,7 @@ LDAP_BIND_PASSWORD - Password for bind user
 The image expects ssl certificates in the /cert directory. 
 This directory must contain the following files: 
  - https_cert.cert	
- - https_cert.ke
+ - https_cert.key
  
  # Build
  docker image build --tag mlflow_ad:latest .
