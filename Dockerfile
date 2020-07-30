@@ -6,15 +6,18 @@ ENV TERM linux
 RUN mkdir /app
 WORKDIR /app
 
-RUN pip install mlflow
 
 RUN apt-get update -yqq \
    && apt-get install apt-utils -yqq \
+   && apt-get install freetds-bin -yqq \
+   && apt-get install build-essential -yqq \
    && apt-get install sudo -yqq \
    && apt-get install apache2 -yqq \
    && apt-get install apache2-utils -yqq \
    && apt-get install vim -yqq \
    && apt-get install net-tools -yqq \
+   && apt-get install python-dev -yqq \
+   && apt-get install libpq-dev -yqq \
    && apt-get autoremove -yqq --purge \
    && apt-get clean \
    && rm -rf \
@@ -25,6 +28,15 @@ RUN apt-get update -yqq \
         /usr/share/doc \
         /usr/share/doc-base
    
+RUN pip install -U pip setuptools wheel \
+    && pip install pytz \
+    && pip install pyOpenSSL \
+    && pip install pyasn1 \
+    && pip install psycopg2 \
+    && pip install mlflow \
+    && pip install psycopg2
+
+
 ADD apache2.conf /etc/apache2/apache2.conf
 
 RUN ln -sf /etc/apache2/mods-available/proxy.conf /etc/apache2/mods-enabled
@@ -58,4 +70,4 @@ RUN chmod +x ./entrypoint.sh
 USER mlflow
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-# CMD [ "/app/entrypoint.sh" ]
+#CMD [ "/app/entrypoint.sh" ]
